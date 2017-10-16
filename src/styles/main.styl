@@ -1,0 +1,195 @@
+@import url(https://fonts.googleapis.com/css?family=Cinzel)
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,700)
+
+
+@font-face {
+  font-family: 'Roboto-mine';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v16/Pru33qjShpZSmG3z6VYwnYX0hVgzZQUfRDuZrPvH3D8.woff2) format('woff2');
+  unicode-range U+30-39, U+24, U+25
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto-mine';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v16/Hgo13k-tfSpn0qi1SFdUfZBw1xU1rKptJj_0jans920.woff2) format('woff2');
+  unicode-range U+30-39, U+24, U+25
+}
+
+
+@font-face {
+  font-family: 'Roboto-mine';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), local('sans-serif'), url(https://fonts.gstatic.com/s/roboto/v16/Ks_cVxiCiwUWVsFWFA3Bjn-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range U+30-39, U+24, U+25
+}
+/* latin */
+@font-face 
+  font-family: 'Roboto-mine';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), local('sans-serif'), url(https://fonts.gstatic.com/s/roboto/v16/oMMgfZMQthOryQo9n22dcuvvDin1pK8aKteLpeZ5c0A.woff2) format('woff2');
+  unicode-range U+30-39, U+24, U+25
+
+
+$colors = {
+  green: #5ce673,
+  red: #ff4d6a,
+  yellow: #fac519,
+  orange: #ff7a38,
+  blue: #4dccff,
+  purple: #6e66ff
+}
+
+$green = #5ce673
+$red = #ff4d6a
+$yellow = #fac519
+$orange = #ff7a38
+$blue = #4dccff
+$purple = #6e66ff
+
+// :export 
+//   green: $colors.green
+//   red: $colors.red
+//   yellow: $colors.yellow
+//   orange: $colors.orange
+//   blue: $colors.blue
+//   purple: $colors.purple
+  
+html
+  height 100%
+   
+body
+  height 100%
+  margin 0px
+  line-height 1em !important
+  font-family: 'Roboto-mine', 'Raleway', sans-serif !important
+  color #292f33
+  font-weight 300
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9fafd
+
+  .material-icons
+    color rgba(0, 0, 0, .5)
+
+p
+  margin 0px
+  padding 0px
+
+h1, h2, h3
+  margin 0px
+  padding 0px
+  
+.desktop
+  @media screen and (max-width: 599px)  
+    display none !important
+.mobile
+  @media screen and (min-width: 600px)  
+    display none !important
+    
+.page
+   padding 1em
+
+input
+  padding-left .5em !important
+  display flex
+  flex-grow 1
+  height 30px !important
+  border 1px solid rgba(0, 0, 0, .1)
+  font-family 'Roboto', 'Raleway', sans-serif 
+  letter-spacing .5px
+  border-radius 2px
+  margin 0px !important
+
+  &:focus
+    outline none
+    border 1px solid $blue !important
+    box-shadow none !important
+
+.button
+  background white
+  padding .5em
+  border 1px solid rgba(0, 0, 0, .3)
+  border-radius 4px
+  cursor pointer
+  display flex
+  align-items center
+  justify-content center
+  min-width 100px
+  
+  &:hover
+    background rgba(0, 0, 0, .05)
+  &:active
+    background rgba(0, 0, 0, .15)
+
+// TRANSITIONS
+$transition-time = .3s
+$transition-slide-length = 500px
+// slide-right
+.slide-right-enter-active 
+  transition: all $transition-time ease
+
+.slide-right-leave-active 
+  transition: all $transition-time ease
+
+.slide-right-enter
+  transform translateX(-400px)
+  opacity 0
+  @media screen and (min-width: 600px)
+    transform translateX(-$transition-slide-length)  
+
+.slide-right-leave-to
+  transform translateX(400px)
+  opacity 0
+  @media screen and (min-width: 600px)
+    transform translateX($transition-slide-length)
+// slide-left
+.slide-left-enter-active 
+  transition: all $transition-time ease
+
+.slide-left-leave-active 
+  transition: all $transition-time  ease
+
+.slide-left-enter 
+  transform translateX(400px)    
+  opacity 0
+  @media screen and (min-width: 600px)
+    transform translateX($transition-slide-length)
+.slide-left-leave-to  
+  transform translateX(-400px)
+  opacity 0
+  @media screen and (min-width: 600px)  
+    transform translateX(-$transition-slide-length)
+
+// slide-down
+.slide-down-enter-active 
+  transition: all .5s ease;
+
+.slide-down-leave-active 
+  transition: all .5s ease;
+
+.slide-down-enter 
+  transform translateY(400px)
+  opacity 0
+  @media screen and (min-width: 600px)  
+    transform translateY(600px)
+
+.slide-down-leave-to  
+  transform translateY(400px)
+  opacity 0
+  @media screen and (min-width: 600px)  
+    transform translateY(600px)
+
+// Sliders
+.noUi-tooltip, .noUi-connect
+  background-color $purple !important
+  
+.row 
+  display flex
+  flex-basis 100%
+  align-items center
+  margin 0px
