@@ -10,13 +10,13 @@ const state = {
 
 // Getters
 var getters = {
-  first_name: state =>  state.first_name,
-  last_name: state =>  state.last_name,
+  listening: state =>  state.listening,
+  result: state =>  state.last_name,
 }
 
 // Mutations
 var mutations = {
-  ["UPDATE_FIRST_NAME"] (state, first_name) {
+  ["START"] (state, first_name) {
     state.first_name = first_name
   },
 }

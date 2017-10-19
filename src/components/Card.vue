@@ -1,5 +1,5 @@
 <template lang="pug">
-.card
+.card(:class="{'flipped': card.flipped}")
   .face.front(v-if="!card.flipped")
     .word
       span {{card.front.display}}
@@ -46,7 +46,7 @@ export default {
   },
 
   mounted(){
-    
+
   }
 }
 </script>
@@ -64,9 +64,9 @@ export default {
   perspective 1000px
   transition .5s all
   
-  &:hover
+  &.flipped
     transform: rotatex(-180deg);
-
+    transition 5s all
   
   .face
     display flex

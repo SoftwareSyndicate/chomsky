@@ -1,7 +1,7 @@
 <template lang="pug">
-.card-list
-  .card-container(v-for="card in cards" v-if="card.visible")
-    card(:card="card")
+.deck
+  .card-container
+    card(:card="cards[0]")
 
 </template>
 
@@ -10,7 +10,7 @@ import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import Card from '@/components/Card'
 
 export default {
-  name: 'CardList',
+  name: 'Deck',
   components: {
     Card
   },
@@ -45,7 +45,7 @@ export default {
 
 
 <style lang="stylus">
-.card-list
+.deck
   display flex
   flex-basis 100%
   align-items center

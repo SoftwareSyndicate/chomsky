@@ -5,17 +5,17 @@ import APIs from '../apis/'
 const state = {
   deck: [
     {
-      visible: true,
       flipped: false,
       front: {
+        word: "Hello",
         display: "Hello"
       },
       back: {
-        display: "Back"
+        word: "こんにちは",
+        display: "こんにちは"
       }
     },
     {
-      visible: false,
       flipped: false,
       front: {
         display: "World"
@@ -25,11 +25,13 @@ const state = {
       }
     }
   ],
+  card: null
 }
 
 // Getters
 var getters = {
   deck: state => state.deck,
+  card: state => state.deck[0],
 }
 
 // Mutations
@@ -48,16 +50,14 @@ var actions = {
         visible: false,
         flipped: false,
         front: {
-          word: w
+          word: w,
+          display: w
         },
         back: {
-          word: "Back"
+          word:"こんにちは",
+          display: "こんにちは",
         }
       }
-
-      // APIs.Jisho.get_word(w).then(results => {
-        
-      // })
     })
   }
 }
