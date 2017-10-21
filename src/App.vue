@@ -34,7 +34,6 @@ navbar-height = 60px
   
   .router-view-container
     height 100%
-    padding-top navbar-height
 
     .page
        display flex

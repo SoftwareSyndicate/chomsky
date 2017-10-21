@@ -1,9 +1,8 @@
 <template lang="pug">
-#home-page
-  button( @click="toggleSpeech()") Toggle Recognition
-  .deck-container
+#home-page(:class="{'listening': listening}")
+  .deck-container(@click="toggleSpeech()")
     deck(:cards="deck")
-    
+
 </template>
 
 <script>
@@ -48,7 +47,7 @@ export default {
     },
     
     toggleSpeech(){
-      log("toggle Speech")
+      log("TOLL")
       if(this.listening){
         this.recognition.stop()
         this.listening = false
@@ -98,10 +97,16 @@ export default {
   flex-basis 100%
   align-items center
   justify-content center
+  height 100%
+  flex-wrap wrap
 
+  &.listening
+    background: radial-gradient(rgba(231, 76, 60,1.0)  0%, transparent 40%, #f9fafd 50%)
+  
   .deck-container
     display flex
     flex-basis 100%
-    
+
+        
   
 </style>
