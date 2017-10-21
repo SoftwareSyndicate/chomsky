@@ -3,63 +3,83 @@ import APIs from '../apis/'
 
 // State
 const state = {
-  deck: [
-    {
-      flipped: false,
-      front: {
-        word: "Hello",
-        display: "Hello"
-      },
-      back: {
-        word: "こんにちは",
-        display: "こんにちは"
-      }
-    },
-    {
-      flipped: false,
-      front: {
-        display: "World"
-      },
-      back: {
-        display: "Back"
-      }
-    }
-  ],
+  deck: [],
+  graveyard: [],
   card: null
 }
 
 // Getters
 var getters = {
   deck: state => state.deck,
+  graveyard: state => state.graveyard,
   card: state => state.deck[0],
 }
 
 // Mutations
 var mutations = {
-  ["UPDATE_FIAT"] (state, base_fiat) {
-    state.base_fiat = base_fiat
+  ["flip_card"] (state) {
+    state.deck[0].flipped = !state.deck[0].flipped
+  },
+  ["next_card"] (state) {
+    let card = state.deck.shift()
+    state.graveyard.unshift(card)
+  },
+  ["previous_card"] (state) {
+    let card = state.graveyard.shift()
+    state.deck.unshift(card)
   },
 }
 
 // Actions
 var actions = {
   build_deck: ({ commit, state }) => {
-    let cards = []
-    commonWords.forEach(w => {
-      let card = {
-        visible: false,
+    let cards = [
+      {
         flipped: false,
         front: {
-          word: w,
-          display: w
+          word: "Hello",
         },
         back: {
-          word:"こんにちは",
-          display: "こんにちは",
+          word: "こんにちは",
+        }
+      },
+      {
+        flipped: false,
+        front: {
+          word: "Yes",
+        },
+        back: {
+          word: "はい",
+        }
+      },
+      {
+        flipped: false,
+        front: {
+          word: "No",
+        },
+        back: {
+          word: "いいえ",
         }
       }
-    })
-  }
+    ]
+    // commonWords.forEach(w => {
+    //   let card = {
+    //     visible: false,
+    //     flipped: false,
+    //     front: {
+    //       word: w,
+    //       display: w
+    //     },
+    //     back: {
+    //       word:"こんにちは",
+    //       display: "こんにちは",
+    //     }
+    //   }
+    // })
+
+    state.deck = cards
+    return state.deck
+  },
 }
 
 export default {

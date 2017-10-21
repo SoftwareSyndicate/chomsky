@@ -8,7 +8,7 @@
 <script>
 import Deck from '@/components/Deck'  
 // import Recognition from '@/store/recognition'  
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'HomePage',
@@ -22,8 +22,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      buildDeck: 'cards/build_deck'
+      buildDeck: 'cards/build_deck',
     }),
+    ...mapMutations({
+      flipCard: 'cards/flip_card',
+      nextCard: 'cards/next_card',
+    }),
+    
     onStart(e){
       this.listening = true
       log("on Start", e)
@@ -33,10 +38,15 @@ export default {
       log("on End", e)
     },
     onResult(e){
-      log("on Result")
       let result = e.results[0][0].transcript
+      log("on Result: ", result)
       if(result == this.card.back.word){
         log("MATCH!!!!!!!!!!!!!!!!!!!")
+        this.flipCard()
+
+        setTimeout(()=>{
+          this.nextCard()
+        }, 5000)
       }
     },
     onError(e){
@@ -47,7 +57,6 @@ export default {
     },
     
     toggleSpeech(){
-      log("TOLL")
       if(this.listening){
         this.recognition.stop()
         this.listening = false
@@ -65,7 +74,7 @@ export default {
     })
   },
   created(){
-    // this.buildDeck() TODO generate deck from json file of words
+    this.buildDeck()
   },
   mounted(){
     var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
