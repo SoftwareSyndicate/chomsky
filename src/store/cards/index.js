@@ -1,15 +1,23 @@
-import commonWords from '../apis/common'
+import Vue from 'vue'
+import decks from '@/decks'
 import APIs from '../apis/'
+
 
 // State
 const state = {
+  decks: decks,
   deck: [],
   graveyard: [],
-  card: null
+  card: null,
+  config: {
+    lang: 'ja',
+    decks: ['colors', 'numbers']
+  }
 }
 
 // Getters
 var getters = {
+  decks: state => state.decks,
   deck: state => state.deck,
   graveyard: state => state.graveyard,
   card: state => state.deck[0],
@@ -17,10 +25,18 @@ var getters = {
 
 // Mutations
 var mutations = {
+  ['update_deck'](state, deck){
+    log(deck)
+    state.deck = deck
+  },
+  ['update_config'](state, config){
+    state.config = Object.assign({}, state.config, config)
+  },
   ["flip_card"] (state) {
     state.deck[0].flipped = !state.deck[0].flipped
   },
   ["next_card"] (state) {
+    log("next card")
     let card = state.deck.shift()
     state.graveyard.unshift(card)
   },
@@ -33,52 +49,35 @@ var mutations = {
 // Actions
 var actions = {
   build_deck: ({ commit, state }) => {
-    let cards = [
-      {
-        flipped: false,
-        front: {
-          word: "Hello",
-        },
-        back: {
-          word: "こんにちは",
+    // Just select numbers deck for now
+    let deck = decks[state.config.decks[0]]
+    let promises = []
+    let cards = []
+    
+    deck.words.forEach(word => {
+      promises.push(Vue.http.get("https://us-central1-dokodokodoko-511dc.cloudfunctions.net/functionsAPI/translate/" + state.config.lang + "?text=" + word).then(response => {
+        let card = {
+          flipped: false,
+          front: {
+            lang: deck.lang,
+            word: word,
+          },
+          back: {
+            lang: state.config.lang,
+            word: response.body.translatedText
+          }
         }
-      },
-      {
-        flipped: false,
-        front: {
-          word: "Yes",
-        },
-        back: {
-          word: "はい",
-        }
-      },
-      {
-        flipped: false,
-        front: {
-          word: "No",
-        },
-        back: {
-          word: "いいえ",
-        }
-      }
-    ]
-    // commonWords.forEach(w => {
-    //   let card = {
-    //     visible: false,
-    //     flipped: false,
-    //     front: {
-    //       word: w,
-    //       display: w
-    //     },
-    //     back: {
-    //       word:"こんにちは",
-    //       display: "こんにちは",
-    //     }
-    //   }
-    // })
 
-    state.deck = cards
-    return state.deck
+        cards.push(card)
+      }, error => {
+        throw error
+      }))
+    })
+
+    return Promise.all(promises).then(()=> {
+      commit("update_deck", cards)
+      return cards
+    })
   },
 }
 

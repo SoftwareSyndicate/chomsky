@@ -1,5 +1,5 @@
 <template lang="pug">
-.card(:class="{'flipped': card.flipped}")
+.card(:class="{'flipped': card.flipped, 'success': card.success}")
   .face.front(v-if="!card.flipped")
     .word
       span {{card.front.word}}
@@ -54,6 +54,8 @@ export default {
 
 <style lang="stylus">
 .card
+  position relative
+  overflow hidden
   display flex
   flex-basis 100%
   background white
@@ -84,5 +86,7 @@ export default {
       font-weight 400
       
 
+  // &.success
+    
   
 </style>

@@ -1,96 +1,60 @@
 <template lang="pug">
-#home-page(:class="{'listening': listening}")
-  .deck-container(@click="toggleSpeech()")
-    deck(:cards="deck")
+#home-page()
+  h1 Decks 
+  .deck-list
+    .deck(v-for="deck in decks" @click="selectDeck(deck)")
+      .top
+        span.name {{deck.name}}
+      .bottom
+        .info.card-count
+          span.label Card Count:
+          span.value {{deck.words.length}}
+        .info.language  
+          span.label Language:
+          span.value {{deck.language}}
+        .info.difficulty
+          span.label Difficulty:
+          span.value {{deck.difficulty}}
 
+      
 </template>
 
 <script>
-import Deck from '@/components/Deck'  
-// import Recognition from '@/store/recognition'  
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'HomePage',
   components: {
-    Deck
+
   },
   data(){
     return {
-      listening: false
+      
     }
   },
   methods: {
-    ...mapActions({
-      buildDeck: 'cards/build_deck',
-    }),
     ...mapMutations({
-      flipCard: 'cards/flip_card',
-      nextCard: 'cards/next_card',
+      updateConfig: 'cards/update_config',
     }),
-    
-    onStart(e){
-      this.listening = true
-      log("on Start", e)
-    },
-    onEnd(e){
-      this.listening = false
-      log("on End", e)
-    },
-    onResult(e){
-      let result = e.results[0][0].transcript
-      log("on Result: ", result)
-      if(result == this.card.back.word){
-        log("MATCH!!!!!!!!!!!!!!!!!!!")
-        this.flipCard()
-
-        setTimeout(()=>{
-          this.nextCard()
-        }, 5000)
+    selectDeck(deck){
+      let config = {
+        decks: [deck.name],
+        lang: 'ja'
       }
-    },
-    onError(e){
-      log("on Error", e)
-    },
-    onNoResult(e){
-      log("on noResult", e)
-    },
-    
-    toggleSpeech(){
-      if(this.listening){
-        this.recognition.stop()
-        this.listening = false
-      } else {
-        this.recognition.start()
-        this.listening = true
-      }
+      this.updateConfig(config)
+      log("going")
+      this.$router.push({name: "deck"})
     }
-    
   },
   computed: {
     ...mapGetters({
-      deck: "cards/deck",
-      card: "cards/card"
+      decks: "cards/decks",
     })
   },
   created(){
-    this.buildDeck()
+
   },
   mounted(){
-    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
-
-    this.recognition = new SpeechRecognition()
-    this.recognition.continuous = false
-    // this.recognition.lang = 'en-US'
-    this.recognition.lang = 'ja-JP'
-    // this.recognition.interimResults = true
-    this.recognition.maxAlternatives = 1
-    this.recognition.onstart = this.onStart.bind(this)
-    this.recognition.onend = this.onEnd.bind(this)
-    this.recognition.onerror = this.onError.bind(this)
-    this.recognition.onnoresult = this.onNoResult.bind(this)
-    this.recognition.onresult = this.onResult.bind(this)
 
     
   },
@@ -103,19 +67,52 @@ export default {
 
 #home-page
   display flex
-  flex-basis 100%
-  align-items center
-  justify-content center
-  height 100%
   flex-wrap wrap
-
-  &.listening
-    background: radial-gradient(rgba(231, 76, 60,1.0)  0%, transparent 40%, #f9fafd 50%)
+  padding 2em
   
-  .deck-container
-    display flex
+  h1
     flex-basis 100%
+    margin-bottom 2em
+    
+  .deck-list
+    display flex
+    flex-grow 1
+    padding 1em
+    
+    .deck
+      display flex
+      flex-wrap wrap
+      background white
+      border 1px solid rgba(0, 0, 0, .08)
+      padding 1em
+      margin 1em
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.13)
+      flex-grow 1
+      cursor pointer
+      transition all .3s
 
+      &:hover
+        box-shadow: 0 3px 6px rgba(0,0,0,0.13), 0 3px 6px rgba(0,0,0,0.20)
+      
+      .top
+        display flex
+        flex-basis 100%
+        padding-bottom 1.5em
         
-  
+        .name
+          font-weight 400
+          font-size 2.3em
+          
+      .bottom
+        display flex
+        flex-wrap wrap
+        flex-basis 100%
+        .info
+          display flex
+          flex-basis 100%
+          justify-content space-between
+          margin-bottom .3em
+        span
+          font-size 1.3em
+          
 </style>

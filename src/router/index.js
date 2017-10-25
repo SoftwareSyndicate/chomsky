@@ -10,13 +10,14 @@ const router = new Router({
   routes: [
     {path: '*', redirect: '/home'},
     {path: '/home', name: 'home', component: Pages.HomePage},
+    {path: '/deck', name: 'deck', component: Pages.DeckPage},
   ],
 })
 
 
-router.beforeEach((to, from, next) => {
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   next()
+// })
 
 
 export default router
